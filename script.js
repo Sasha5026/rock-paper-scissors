@@ -19,24 +19,50 @@ function playRound(humanChoice, computerChoice) {
     switch(compChoice) {
         case 'rock':
             if (humChoice === 'rock') console.log("It's a tie! Let's go for another round!");
-            else if (humChoice === 'paper') console.log("You win! Paper beats rock!");
-            else if (humChoice === 'scissors') console.log("You lose! Rock beats scissors!");
+            else if (humChoice === 'paper') {
+                console.log("You win! Paper beats rock!");
+                humanScore++;
+            }
+            else if (humChoice === 'scissors') {
+                console.log("You lose! Rock beats scissors!");
+                computerScore++;
+            }
             break;
         case 'paper':
-            if (humChoice === 'rock') console.log("You lose! Paper beats rock!");
+            if (humChoice === 'rock') {
+                console.log("You lose! Paper beats rock!");
+                computerScore++;
+            }
             else if (humChoice === 'paper') console.log("It's a tie! Let's go for another round!");
-            else if (humChoice === 'scissors') console.log("You win! Scissors beat paper!");
+            else if (humChoice === 'scissors') {
+                console.log("You win! Scissors beat paper!");
+                humanScore++;
+            }
             break;
         case 'scissors':
-            if (humChoice === 'rock') console.log("You win! Rock beats scissors!");
-            else if (humChoice === 'paper') console.log("You lose! Scissors beat paper!");
+            if (humChoice === 'rock') {
+                console.log("You win! Rock beats scissors!");
+                humanScore++;
+            }
+            else if (humChoice === 'paper') {
+                console.log("You lose! Scissors beat paper!");
+                computerScore++;
+            }
             else if (humChoice === 'scissors') console.log("It's a tie! Let's go for another round!");
             break;
     }
 }
 
-const humanSelection = getHumanChoice();
-const computerSelection = getComputerChoice();
+function playGame() {
+    for (let i = 0; i < 5; i++) {    
+        const humanSelection = getHumanChoice();
+        const computerSelection = getComputerChoice();
+        playRound(humanSelection, computerSelection);
+        console.log('The result is:\n' + 'You: ' + humanScore + '\nComputer: ' + computerScore + '\n');
+    }
+}
 
-playRound(humanSelection, computerSelection);
+playGame();
+
+
 
