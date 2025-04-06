@@ -3,17 +3,22 @@ let computerScore = 0;
 
 function getComputerChoice() {
     let cChoice = Math.random();
-    if (cChoice <= 1/3) return 'Rock';
-    else if (1/3 < cChoice <= 2/3) return 'Paper';
-    else if (2/3 < cChoice) return 'Scissors';
+    if (cChoice <= 1/3) return 'rock';
+    else if (1/3 < cChoice && cChoice <= 2/3) return 'paper';
+    else if (2/3 < cChoice) return 'scissors';
 }
 
 function getHumanChoice() {
     let hChoice = prompt("Rock, paper, scissoooors");
+    if(hChoice === null) return "";
     return hChoice;
 }
 
 function playRound(humanChoice, computerChoice) {
+    if (!humanChoice) {
+        console.log("Invalid input, skipping this round.");
+        return;
+    }
     let humChoice = humanChoice.toLowerCase();
     let compChoice= computerChoice.toLowerCase();
     switch(compChoice) {
