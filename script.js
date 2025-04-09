@@ -1,6 +1,8 @@
 let humanScore = 0;
 let computerScore = 0;
 
+const result = document.createElement("div");
+
 function getComputerChoice() {
     let cChoice = Math.random();
     if (cChoice <= 1/3) return 'rock';
@@ -8,66 +10,77 @@ function getComputerChoice() {
     else if (2/3 < cChoice) return 'scissors';
 }
 
-function getHumanChoice() {
-    let hChoice = prompt("Rock, paper, scissoooors");
-    if(hChoice === null) return "";
-    return hChoice;
-}
-
 function playRound(humanChoice, computerChoice) {
     if (!humanChoice) {
         console.log("Invalid input, skipping this round.");
         return;
     }
+
     let humChoice = humanChoice.toLowerCase();
     let compChoice= computerChoice.toLowerCase();
+    let message = '';
+
     switch(compChoice) {
         case 'rock':
-            if (humChoice === 'rock') console.log("It's a tie! Let's go for another round!");
+            if (humChoice === 'rock') message = "It's a tie! Let's go for another round!";
             else if (humChoice === 'paper') {
-                console.log("You win! Paper beats rock!");
+                message = "You win! Paper beats rock!";
                 humanScore++;
             }
             else if (humChoice === 'scissors') {
-                console.log("You lose! Rock beats scissors!");
+                message = "You lose! Rock beats scissors!";
                 computerScore++;
             }
             break;
         case 'paper':
             if (humChoice === 'rock') {
-                console.log("You lose! Paper beats rock!");
+                message = "You lose! Paper beats rock!";
                 computerScore++;
             }
-            else if (humChoice === 'paper') console.log("It's a tie! Let's go for another round!");
+            else if (humChoice === 'paper') message = "It's a tie! Let's go for another round!";
             else if (humChoice === 'scissors') {
-                console.log("You win! Scissors beat paper!");
+                message = "You win! Scissors beat paper!";
                 humanScore++;
             }
             break;
         case 'scissors':
             if (humChoice === 'rock') {
-                console.log("You win! Rock beats scissors!");
+                message = "You win! Rock beats scissors!";
                 humanScore++;
             }
             else if (humChoice === 'paper') {
-                console.log("You lose! Scissors beat paper!");
+                message = "You lose! Scissors beat paper!";
                 computerScore++;
             }
-            else if (humChoice === 'scissors') console.log("It's a tie! Let's go for another round!");
+            else if (humChoice === 'scissors') message = "It's a tie! Let's go for another round!";
             break;
     }
-}
 
-function playGame() {
-    for (let i = 0; i < 5; i++) {    
-        const humanSelection = getHumanChoice();
-        const computerSelection = getComputerChoice();
-        playRound(humanSelection, computerSelection);
-        console.log('The result is:\n' + 'You: ' + humanScore + '\nComputer: ' + computerScore + '\n');
+    if (humanScore === 5) {
+        result.innerHTML = `Congratulations! You are the winner!<br>Final score:<br>You: ${humanScore} - Computer: ${computerScore}`;
+        disableButtons();
+        return;
     }
+
+    if (computerScore === 5) {
+        result.innerHTML = `Game over! The computer wins.<br>Final score:<br>You: ${humanScore} - Computer: ${computerScore}`;
+        disableButtons();
+        return;
+    }
+
+    result.innerHTML = `${message}<br>The result is:<br>You: ${humanScore} - Computer: ${computerScore}`;
 }
 
-playGame();
+const choices = ["Rock", "Paper", "Scissors"];
+choices.forEach(choice => {
+    const button = document.createElement("button");
+    button.textContent = choice;
+    button.addEventListener("click", () => playRound(choice, getComputerChoice()));
+    document.body.appendChild(button);
+})
 
+function disableButtons() {
+    document.querySelectorAll("button").forEach(button => button.disabled = true);
+}
 
-
+document.body.appendChild(result);
